@@ -82,7 +82,7 @@ public class FragmentZones extends Fragment {
 
         Cursor cursorZones = bd.Zones();
 
-        scZones = new adapterZones(this.getActivity(), R.layout.layout_zona, cursorZones, from, to, 1, FragmentZones.this);
+        scZones = new adapterZones(getActivity(), R.layout.layout_zona, cursorZones, from, to, 1, FragmentZones.this);
 
         ListView lv = getActivity().findViewById(R.id.listZones);
         lv.setAdapter(scZones);
@@ -133,7 +133,7 @@ public class FragmentZones extends Fragment {
 
     private void carregaZones() {
 
-        Cursor cursorZones = null;
+        Cursor cursorZones;
 
         cursorZones = bd.Zones();
 

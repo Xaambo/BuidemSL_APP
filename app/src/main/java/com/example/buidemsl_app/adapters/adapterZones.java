@@ -27,7 +27,7 @@ public class adapterZones extends android.widget.SimpleCursorAdapter {
         final View view = super.getView(position, convertView, parent);
 
         // Agafem l'objecte de la view que es una LINEA DEL CURSOR
-        Cursor maquines = (Cursor) getItem(position);
+        //Cursor maquines = (Cursor) getItem(position);
 
         ImageView btnBorrar = view.findViewById(R.id.btnDel);
 

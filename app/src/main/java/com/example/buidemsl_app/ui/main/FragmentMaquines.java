@@ -78,7 +78,7 @@ public class FragmentMaquines extends Fragment {
 
         Cursor cursorMaquines = bd.Maquines();
 
-        scMaquines = new adapterMaquines(getActivity(), R.layout.layout_zona, cursorMaquines, from, to, 1);
+        //scMaquines = new adapterMaquines(getActivity(), R.layout.layout_zona, cursorMaquines, from, to, 1);
 
         ListView lv = getActivity().findViewById(R.id.listMaquines);
         lv.setAdapter(scMaquines);

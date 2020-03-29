@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">BuidemSLDev</string>
+    <string name="tab_text_1">Màquines</string>
+    <string name="tab_text_2">Zones</string>
+    <string name="tab_text_3">Tipus</string>
+    <string name="tab_text_4">Mapa</string>
+</resources>

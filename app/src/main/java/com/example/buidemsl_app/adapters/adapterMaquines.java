@@ -9,15 +9,16 @@ import android.widget.ListView;
 
 import com.example.buidemsl_app.DatasourceDB;
 import com.example.buidemsl_app.R;
+import com.example.buidemsl_app.ui.main.FragmentMaquines;
 import com.example.buidemsl_app.ui.main.FragmentZones;
 
 public class adapterMaquines extends android.widget.SimpleCursorAdapter {
 
-    private FragmentZones fragmentZones;
+    private FragmentMaquines fragmentMaquines;
 
-    public adapterMaquines(Context context, int layout, Cursor c, String[] from, int[] to, int flags, FragmentZones fragment) {
+    public adapterMaquines(Context context, int layout, Cursor c, String[] from, int[] to, int flags, FragmentMaquines fragment) {
         super(context, layout, c, from, to, flags);
-        fragmentZones = fragment;
+        fragmentMaquines = fragment;
     }
 
     @Override
@@ -26,7 +27,7 @@ public class adapterMaquines extends android.widget.SimpleCursorAdapter {
         final View view = super.getView(position, convertView, parent);
 
         // Agafem l'objecte de la view que es una LINEA DEL CURSOR
-        Cursor maquines = (Cursor) getItem(position);
+        //Cursor maquines = (Cursor) getItem(position);
 
         ImageView btnBorrar = view.findViewById(R.id.btnDel);
 
@@ -42,7 +43,7 @@ public class adapterMaquines extends android.widget.SimpleCursorAdapter {
                 // Carrego la linia del cursor de la posició.
                 Cursor linia = (Cursor) getItem(position);
 
-                fragmentZones.eliminarZona(linia.getLong(linia.getColumnIndexOrThrow(DatasourceDB.ZONE_ID)));
+                fragmentMaquines.eliminarMaquina(linia.getLong(linia.getColumnIndexOrThrow(DatasourceDB.ZONE_ID)));
             }
         });
 

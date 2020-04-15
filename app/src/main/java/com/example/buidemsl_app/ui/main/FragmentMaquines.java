@@ -1,6 +1,9 @@
 package com.example.buidemsl_app.ui.main;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,6 +22,8 @@ import com.example.buidemsl_app.MainActivity;
 import com.example.buidemsl_app.R;
 import com.example.buidemsl_app.adapters.adapterMaquines;
 
+import com.example.buidemsl_app.crearMaquina;
+import com.example.buidemsl_app.crearZona;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -78,7 +83,7 @@ public class FragmentMaquines extends Fragment {
 
         Cursor cursorMaquines = bd.Maquines();
 
-        //scMaquines = new adapterMaquines(getActivity(), R.layout.layout_zona, cursorMaquines, from, to, 1);
+        scMaquines = new adapterMaquines(getActivity(), R.layout.layout_zona, cursorMaquines, from, to, 1, FragmentMaquines.this);
 
         ListView lv = getActivity().findViewById(R.id.listMaquines);
         lv.setAdapter(scMaquines);
@@ -89,14 +94,43 @@ public class FragmentMaquines extends Fragment {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addMaquina(v);
+                addMaquina();
             }
         });
     }
 
-    private void addMaquina(View v) {
+    private void addMaquina() {
 
-        Snackbar.make(v, "Maquines", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+        Intent i = new Intent(getActivity(), crearMaquina.class);
+        startActivityForResult(i, 1);
 
+    }
+
+    public void eliminarMaquina(final long _id) {
+        // Pedimos confirmación
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        builder.setMessage("¿Desitja eliminar la maquina?");
+        builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                bd.EliminarZona(_id);
+                carregaMaquines();
+            }
+        });
+
+        builder.setNegativeButton("No", null);
+
+        builder.show();
+    }
+
+    private void carregaMaquines() {
+
+        Cursor cursorMaquines;
+
+        cursorMaquines = bd.Zones();
+
+        // Un cop hem creat la maquina li diem al adapter que li hem canviat les dades i que s'actualitzi
+        scMaquines.changeCursor(cursorMaquines);
+        scMaquines.notifyDataSetChanged();
     }
 }

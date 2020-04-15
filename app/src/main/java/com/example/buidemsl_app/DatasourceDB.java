@@ -32,7 +32,7 @@ public class DatasourceDB {
     private BuidemSLHelper dbHelper;
     private SQLiteDatabase dbR,dbW;
 
-    //* CONTRUCTOR */
+    /** CONTRUCTOR */
     
     public DatasourceDB(Context ctx) {
 
@@ -50,7 +50,7 @@ public class DatasourceDB {
         dbR = dbHelper.getReadableDatabase();
     }
 
-    //* TYPES CRUD */
+    /** TYPES CRUD */
 
     public Cursor TipusMaquines() {
 
@@ -78,7 +78,7 @@ public class DatasourceDB {
         dbW.delete(table_TYPE,TYPE_ID + " = ?", new String[]{String.valueOf(id)});
     }
 
-    //* ZONE CRUD */
+    /** ZONE CRUD */
 
     public Cursor Zones() {
 
@@ -108,12 +108,20 @@ public class DatasourceDB {
         
     }
 
-    //* MACHINE CRUD */
+    /** MACHINE CRUD */
 
     public Cursor Maquines() {
         
         //return dbR.query(table_MACHINE, new String[]{MACHINE_ID, MACHINE_NOMCLIENT, MACHINE_DIRECCIO, MACHINE_CP, MACHINE_CIUTAT, MACHINE_TELEFON, MACHINE_EMAIL, MACHINE_NUMEROSERIE, MACHINE_DATAREVISIO, MACHINE_TIPUS, MACHINE_ZONA},null,null, null,null, MACHINE_ID);
         return dbR.rawQuery("SELECT * FROM " + table_MACHINE + " ORDER BY 1", null);
+    }
+
+    public Cursor existeixMaquina(String numeroSerie) {
+
+        String[] args = new String[] {numeroSerie};
+
+        //return dbR.query(table_MACHINE, new String[]{MACHINE_ID, MACHINE_NOMCLIENT, MACHINE_DIRECCIO, MACHINE_CP, MACHINE_CIUTAT, MACHINE_TELEFON, MACHINE_EMAIL, MACHINE_NUMEROSERIE, MACHINE_DATAREVISIO, MACHINE_TIPUS, MACHINE_ZONA},null,null, null,null, MACHINE_ID);
+        return dbR.rawQuery("SELECT " + MACHINE_NUMEROSERIE + " FROM " + table_MACHINE + " WHERE " + MACHINE_NUMEROSERIE + " = ?", args);
     }
 
     public long AfegirMaquina(String client, String adreca, String codiPostal, String city, String telefon, String email, String numeroserie, String datarevisio, int zona, int tipus) {

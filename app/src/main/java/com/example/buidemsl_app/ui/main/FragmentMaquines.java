@@ -27,6 +27,8 @@ import com.example.buidemsl_app.crearZona;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import static android.app.Activity.RESULT_OK;
+
 public class FragmentMaquines extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
@@ -123,11 +125,20 @@ public class FragmentMaquines extends Fragment {
         builder.show();
     }
 
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            // Carreguem totes les zones a lo bestia
+            carregaMaquines();
+        }
+    }
+
     private void carregaMaquines() {
 
         Cursor cursorMaquines;
 
-        cursorMaquines = bd.Zones();
+        cursorMaquines = bd.Maquines();
 
         // Un cop hem creat la maquina li diem al adapter que li hem canviat les dades i que s'actualitzi
         scMaquines.changeCursor(cursorMaquines);

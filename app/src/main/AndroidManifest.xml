@@ -19,6 +19,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".crearMaquina" />
         <activity android:name=".crearZona" />
         <activity android:name=".crearTipus" />
     </application>

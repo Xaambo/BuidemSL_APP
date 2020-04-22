@@ -18,17 +18,17 @@
             android:orientation="horizontal" >
 
             <TextView
-                android:id="@+id/headerCodiZona"
+                android:id="@+id/headerCodiTipus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingEnd="2dp"
                 android:paddingRight="2dp"
-                android:text="Codi zona: "
+                android:text="Codi tipus: "
                 android:textColor="@android:color/black"
                 android:textSize="18dp" />
 
             <TextView
-                android:id="@+id/tvCodiZona"
+                android:id="@+id/tvCodiTipus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TextView"
@@ -42,11 +42,11 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="end"
-            android:layout_marginEnd="5dp"
-            android:layout_marginRight="5dp">
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp">
 
             <ImageView
-                android:id="@+id/btnDelZona"
+                android:id="@+id/btnDelTipus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_delete_black"
@@ -59,15 +59,15 @@
                 android:gravity="end">
 
                 <TextView
-                    android:id="@+id/headerNomZona"
+                    android:id="@+id/headerNomTipus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nom zona: "
+                    android:text="Nom tipus: "
                     android:textColor="@android:color/black"
                     android:textSize="18dp" />
 
                 <TextView
-                    android:id="@+id/tvNomZona"
+                    android:id="@+id/tvNomTipus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="TextView"
@@ -77,22 +77,6 @@
             </LinearLayout>
 
         </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:layout_marginEnd="5dp"
-        android:layout_marginRight="5dp">
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_place_black" />
 
     </LinearLayout>
 

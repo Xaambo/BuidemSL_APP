@@ -124,7 +124,7 @@ public class DatasourceDB {
         return dbR.rawQuery("SELECT " + MACHINE_NUMEROSERIE + " FROM " + table_MACHINE + " WHERE " + MACHINE_NUMEROSERIE + " = ?", args);
     }
 
-    public long AfegirMaquina(String client, String adreca, String codiPostal, String city, String telefon, String email, String numeroserie, String datarevisio, int zona, int tipus) {
+    public long AfegirMaquina(String client, String adreca, String codiPostal, String city, String telefon, String email, String numeroserie, String datarevisio, int tipus, int zona) {
 
         ContentValues values = new ContentValues();
         values.put(MACHINE_NOMCLIENT, client);

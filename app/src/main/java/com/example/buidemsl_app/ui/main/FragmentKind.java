@@ -37,7 +37,7 @@ public class FragmentKind extends Fragment {
     private adapterTipus scTipus;
 
     private static String[] from = new String[]{DatasourceDB.TYPE_ID, DatasourceDB.TYPE_DESC};
-    private static int[] to = new int[]{R.id.tvCodiZona, R.id.tvNomZona};
+    private static int[] to = new int[]{R.id.tvCodiTipus, R.id.tvNomTipus};
 
     public FragmentKind() {}
 
@@ -82,7 +82,7 @@ public class FragmentKind extends Fragment {
 
         Cursor cursorKind = bd.TipusMaquines();
 
-        scTipus = new adapterTipus(getActivity(), R.layout.layout_zona, cursorKind, from, to, 1, FragmentKind.this);
+        scTipus = new adapterTipus(getActivity(), R.layout.layout_tipus, cursorKind, from, to, 1, FragmentKind.this);
 
         ListView lv = getActivity().findViewById(R.id.listTipus);
         lv.setAdapter(scTipus);

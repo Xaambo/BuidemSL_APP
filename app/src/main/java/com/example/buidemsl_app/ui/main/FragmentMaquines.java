@@ -37,8 +37,8 @@ public class FragmentMaquines extends Fragment {
     private DatasourceDB bd;
     private adapterMaquines scMaquines;
 
-    private static String[] from = new String[]{};
-    private static int[] to = new int[]{};
+    private static String[] from = new String[]{DatasourceDB.MACHINE_NUMEROSERIE, DatasourceDB.MACHINE_NOMCLIENT};
+    private static int[] to = new int[]{R.id.tvSNc, R.id.tvNomMaquina};
 
     public FragmentMaquines() {}
 
@@ -85,7 +85,7 @@ public class FragmentMaquines extends Fragment {
 
         Cursor cursorMaquines = bd.Maquines();
 
-        scMaquines = new adapterMaquines(getActivity(), R.layout.layout_zona, cursorMaquines, from, to, 1, FragmentMaquines.this);
+        scMaquines = new adapterMaquines(getActivity(), R.layout.layout_maquina, cursorMaquines, from, to, 1, FragmentMaquines.this);
 
         ListView lv = getActivity().findViewById(R.id.listMaquines);
         lv.setAdapter(scMaquines);

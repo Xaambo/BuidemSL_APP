@@ -168,6 +168,13 @@
 
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/tvData"
+            android:text="Data d'última revisió"
+            android:textColor="#000000"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
         <EditText
             android:id="@+id/edtDatePicker"
             android:layout_width="match_parent"

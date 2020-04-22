@@ -17,9 +17,9 @@ public class adapterMaquines extends android.widget.SimpleCursorAdapter {
     private FragmentMaquines fragmentMaquines;
 
     public adapterMaquines(Context context, int layout, Cursor c, String[] from, int[] to, int flags, FragmentMaquines fragment) {
-        super(context, layout, c, from, to, flags);
-        fragmentMaquines = fragment;
-    }
+    super(context, layout, c, from, to, flags);
+    fragmentMaquines = fragment;
+}
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -29,7 +29,7 @@ public class adapterMaquines extends android.widget.SimpleCursorAdapter {
         // Agafem l'objecte de la view que es una LINEA DEL CURSOR
         //Cursor maquines = (Cursor) getItem(position);
 
-        ImageView btnBorrar = view.findViewById(R.id.btnDel);
+        ImageView btnBorrar = view.findViewById(R.id.btnDelMaquina);
 
         btnBorrar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

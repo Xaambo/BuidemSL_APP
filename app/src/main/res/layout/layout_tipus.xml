@@ -17,6 +17,15 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
 
+            <ImageView
+                android:id="@+id/btnEditTipus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_edit_black"
+                android:layout_marginEnd="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_gravity="right|start"/>
+
             <TextView
                 android:id="@+id/headerCodiTipus"
                 android:layout_width="wrap_content"

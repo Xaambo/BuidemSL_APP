@@ -104,6 +104,19 @@ public class FragmentMaquines extends Fragment {
     private void addMaquina() {
 
         Intent i = new Intent(getActivity(), crearMaquina.class);
+
+        i.putExtra("id" , -1);
+
+        startActivityForResult(i, 1);
+
+    }
+
+    public void editMaquina(int id) {
+
+        Intent i = new Intent(getActivity(), crearMaquina.class);
+
+        i.putExtra("id" , id);
+
         startActivityForResult(i, 1);
 
     }

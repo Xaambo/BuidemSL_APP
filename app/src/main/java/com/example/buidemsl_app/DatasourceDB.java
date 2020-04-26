@@ -50,7 +50,7 @@ public class DatasourceDB {
         dbR = dbHelper.getReadableDatabase();
     }
 
-    /** TYPES CRUD */
+    /** KIND CRUD */
 
     public Cursor TipusMaquines() {
 
@@ -122,6 +122,14 @@ public class DatasourceDB {
 
         //return dbR.query(table_MACHINE, new String[]{MACHINE_ID, MACHINE_NOMCLIENT, MACHINE_DIRECCIO, MACHINE_CP, MACHINE_CIUTAT, MACHINE_TELEFON, MACHINE_EMAIL, MACHINE_NUMEROSERIE, MACHINE_DATAREVISIO, MACHINE_TIPUS, MACHINE_ZONA},null,null, null,null, MACHINE_ID);
         return dbR.rawQuery("SELECT " + MACHINE_NUMEROSERIE + " FROM " + table_MACHINE + " WHERE " + MACHINE_NUMEROSERIE + " = ?", args);
+    }
+
+    public Cursor Maquina(int id) {
+
+        String[] args = new String[] {String.valueOf(id)};
+
+        //return dbR.query(table_MACHINE, new String[]{MACHINE_ID, MACHINE_NOMCLIENT, MACHINE_DIRECCIO, MACHINE_CP, MACHINE_CIUTAT, MACHINE_TELEFON, MACHINE_EMAIL, MACHINE_NUMEROSERIE, MACHINE_DATAREVISIO, MACHINE_TIPUS, MACHINE_ZONA},null,null, null,null, MACHINE_ID);
+        return dbR.rawQuery("SELECT * FROM " + table_MACHINE + " WHERE " + MACHINE_ID + " = ?", args);
     }
 
     public long AfegirMaquina(String client, String adreca, String codiPostal, String city, String telefon, String email, String numeroserie, String datarevisio, int tipus, int zona) {

@@ -27,6 +27,7 @@ import com.google.android.material.snackbar.Snackbar;
 import java.text.DateFormat;
 import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.regex.Pattern;
 
@@ -44,7 +45,7 @@ public class crearMaquina extends AppCompatActivity {
 
         LinearLayout linearLayout;
 
-        LayerDrawable layerDrawable = border.getBorders(Color.WHITE, Color.BLACK, 0, 0, 1, 0);
+        LayerDrawable layerDrawable = border.getBorders(Color.WHITE, Color.BLACK, 0, 0, 2, 0);
 
         linearLayout = findViewById(R.id.linear_CP_City);
         linearLayout.setBackground(layerDrawable);
@@ -70,6 +71,12 @@ public class crearMaquina extends AppCompatActivity {
             }
         });
 
+        idMaquina = getIntent().getExtras().getInt("id");
+
+        if (idMaquina != -1) {
+            carregaDadesMaquines((int)idMaquina);
+        }
+
         Button btnOk = findViewById(R.id.btnOk);
         btnOk.setOnClickListener(new View.OnClickListener() {
 
@@ -87,6 +94,71 @@ public class crearMaquina extends AppCompatActivity {
                 cancelar();
             }
         });
+    }
+
+    private void carregaDadesMaquines(int id) {
+
+        Cursor maquina = bd.Maquina(id);
+        maquina.moveToFirst();
+
+        EditText edt;
+        Spinner spinner;
+
+        edt = findViewById(R.id.edtSN);
+        edt.setText(maquina.getString(maquina.getColumnIndexOrThrow(DatasourceDB.MACHINE_NUMEROSERIE)));
+
+        edt.setFocusable(false);
+
+        edt = findViewById(R.id.edtNomMaquina);
+        edt.setText(maquina.getString(maquina.getColumnIndexOrThrow(DatasourceDB.MACHINE_NOMCLIENT)));
+
+        edt = findViewById(R.id.edtAdreca);
+        edt.setText(maquina.getString(maquina.getColumnIndexOrThrow(DatasourceDB.MACHINE_DIRECCIO)));
+
+        edt = findViewById(R.id.edtCP);
+        edt.setText(maquina.getString(maquina.getColumnIndexOrThrow(DatasourceDB.MACHINE_CP)));
+
+        edt = findViewById(R.id.edtCiutat);
+        edt.setText(maquina.getString(maquina.getColumnIndexOrThrow(DatasourceDB.MACHINE_CIUTAT)));
+
+        edt = findViewById(R.id.edtTel);
+        edt.setText(maquina.getString(maquina.getColumnIndexOrThrow(DatasourceDB.MACHINE_TELEFON)));
+
+        edt = findViewById(R.id.edtEmail);
+        edt.setText(maquina.getString(maquina.getColumnIndexOrThrow(DatasourceDB.MACHINE_EMAIL)));
+
+        edt = findViewById(R.id.edtDatePicker);
+        edt.setText(maquina.getString(maquina.getColumnIndexOrThrow(DatasourceDB.MACHINE_DATAREVISIO)));
+
+        spinner = findViewById(R.id.spinnerTipus);
+        spinner.setSelection(setSpinnerPosition(bd.TipusMaquines(), maquina.getInt(maquina.getColumnIndexOrThrow(DatasourceDB.MACHINE_TIPUS))));
+
+        spinner = findViewById(R.id.spinnerZona);
+        spinner.setSelection(setSpinnerPosition(bd.Zones(), maquina.getInt(maquina.getColumnIndexOrThrow(DatasourceDB.MACHINE_ZONA))));
+    }
+
+    private int setSpinnerPosition(Cursor cursor, int id) {
+
+        int posicio = 0;
+        boolean trobat = false;
+        
+        cursor.moveToFirst();
+        
+        while(!cursor.isAfterLast() && !trobat) {
+
+            if (cursor.getInt(cursor.getColumnIndex("_id")) == id) {
+
+                trobat = true;
+
+            } else {
+
+                cursor.moveToNext();
+                posicio++;
+
+            }
+        }
+
+        return posicio;
     }
 
     private void carregaSpinnerTipus(Spinner tipus) {
@@ -160,18 +232,22 @@ public class crearMaquina extends AppCompatActivity {
 
         numeroSerie = edt.getText().toString();
 
-        Cursor maquina = bd.existeixMaquina(numeroSerie);
+        if (idMaquina == -1) {
 
-        if (maquina.moveToFirst()) {
+            Cursor maquina = bd.existeixMaquina(numeroSerie);
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            if (maquina.moveToFirst()) {
 
-            builder.setMessage("Ja existeix una màquina amb aquest número de serie.");
-            builder.setPositiveButton("Ok", null);
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-            builder.show();
+                builder.setMessage("Ja existeix una màquina amb aquest número de serie.");
+                builder.setPositiveButton("Ok", null);
 
-            return;
+                builder.show();
+
+                return;
+            }
+
         }
 
         if (numeroSerie.length() == 0) {
@@ -273,7 +349,11 @@ public class crearMaquina extends AppCompatActivity {
         item = (Cursor) zones.getSelectedItem();
         intZona = (int) item.getLong(item.getColumnIndexOrThrow(DatasourceDB.ZONE_ID));
 
-        idMaquina = bd.AfegirMaquina(nomMaquina, adreca, codiPostal, ciutat, tel, email, numeroSerie, data, intTipus, intZona);
+        if (idMaquina == -1) {
+            idMaquina = bd.AfegirMaquina(nomMaquina, adreca, codiPostal, ciutat, tel, email, numeroSerie, data, intTipus, intZona);
+        } else {
+            bd.ActualitzarMaquina(idMaquina, nomMaquina, adreca, codiPostal, ciutat, tel, email, numeroSerie, data, intTipus, intZona);
+        }
 
         Intent i = new Intent();
         i.putExtra("id", idMaquina);

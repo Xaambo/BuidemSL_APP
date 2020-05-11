@@ -128,7 +128,7 @@ public class FragmentMaquines extends Fragment {
         builder.setMessage("¿Desitja eliminar la maquina?");
         builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                bd.EliminarZona(_id);
+                bd.EliminarMaquina(_id);
                 carregaMaquines();
             }
         });

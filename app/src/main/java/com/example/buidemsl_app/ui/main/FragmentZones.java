@@ -22,6 +22,7 @@ import com.example.buidemsl_app.MainActivity;
 import com.example.buidemsl_app.R;
 import com.example.buidemsl_app.adapters.*;
 
+import com.example.buidemsl_app.crearTipus;
 import com.example.buidemsl_app.crearZona;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -101,23 +102,46 @@ public class FragmentZones extends Fragment {
     private void addZona() {
 
         Intent i = new Intent(getActivity(), crearZona.class);
+
+        i.putExtra("id" , -1);
+
+        startActivityForResult(i, 1);
+
+    }
+
+    public void editZona(int id) {
+
+        Intent i = new Intent(getActivity(), crearZona.class);
+
+        i.putExtra("id" , id);
+
         startActivityForResult(i, 1);
 
     }
 
     public void eliminarZona(final long _id) {
         // Pedimos confirmación
+
+        Cursor c = bd.MaquinaAmbZona(_id);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        builder.setMessage("¿Desitja eliminar la zona?");
-        builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                bd.EliminarZona(_id);
-                carregaZones();
-            }
-        });
+        if (!c.moveToFirst()) {
 
-        builder.setNegativeButton("No", null);
+            builder.setMessage("¿Desitja eliminar la zona?");
+            builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    bd.EliminarZona(_id);
+                    carregaZones();
+                }
+            });
+
+            builder.setNegativeButton("No", null);
+
+        } else {
+
+            builder.setMessage("Elimini les maquines d'aquesta zona per a poder eliminar-la.");
+            builder.setNeutralButton("Ok", null);
+        }
 
         builder.show();
     }

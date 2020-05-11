@@ -1,6 +1,7 @@
 package com.example.buidemsl_app;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -23,6 +24,12 @@ public class crearTipus extends AppCompatActivity {
 
         bd = new DatasourceDB(this);
 
+        idTipus = getIntent().getExtras().getInt("id");
+
+        if (idTipus != -1) {
+            carregaDadesTipus((int)idTipus);
+        }
+
         Button btnOk = (Button) findViewById(R.id.btnOk);
         btnOk.setOnClickListener(new View.OnClickListener() {
 
@@ -42,12 +49,23 @@ public class crearTipus extends AppCompatActivity {
         });
     }
 
+    private void carregaDadesTipus(int id) {
+
+        Cursor zona = bd.KindById(id);
+        zona.moveToFirst();
+
+        EditText edt;
+
+        edt = findViewById(R.id.edtNomTipus);
+        edt.setText(zona.getString(zona.getColumnIndexOrThrow(DatasourceDB.TYPE_DESC)));
+    }
+
     private void aceptar() {
         // Validem les dades
         EditText edt;
 
         // El codi d'article ha d'estar informat i ha de ser únic
-        edt = findViewById(R.id.edtNomZona);
+        edt = findViewById(R.id.edtNomTipus);
         String nomTipus = edt.getText().toString();
 
         if (nomTipus.length() == 0) {
@@ -55,7 +73,11 @@ public class crearTipus extends AppCompatActivity {
             return;
         }
 
-        idTipus = bd.AfegirTipus(nomTipus);
+        if (idTipus == -1) {
+            idTipus = bd.AfegirZona(nomTipus);
+        } else {
+            bd.ActualitzarTipus(idTipus, nomTipus);
+        }
 
         Intent i = new Intent();
         i.putExtra("id", idTipus);

@@ -58,6 +58,14 @@ public class DatasourceDB {
         return dbR.rawQuery("SELECT * FROM " + table_TYPE + " ORDER BY 1", null);
     }
 
+    public Cursor KindById(int id) {
+
+        String[] args = new String[] {String.valueOf(id)};
+
+        //return dbR.query(table_MACHINE, new String[]{MACHINE_ID, MACHINE_NOMCLIENT, MACHINE_DIRECCIO, MACHINE_CP, MACHINE_CIUTAT, MACHINE_TELEFON, MACHINE_EMAIL, MACHINE_NUMEROSERIE, MACHINE_DATAREVISIO, MACHINE_TIPUS, MACHINE_ZONA},null,null, null,null, MACHINE_ID);
+        return dbR.rawQuery("SELECT * FROM " + table_TYPE + " WHERE " + TYPE_ID + " = ?", args);
+    }
+
     public long AfegirTipus(String tipus) {
 
         ContentValues values = new ContentValues();
@@ -78,12 +86,28 @@ public class DatasourceDB {
         dbW.delete(table_TYPE,TYPE_ID + " = ?", new String[]{String.valueOf(id)});
     }
 
+    public Cursor MaquinaAmbTipus(long id) {
+
+        String[] args = new String[]{ String.valueOf(id) };
+
+        //return dbR.query(table_ZONE, new String[]{ZONE_ID,ZONE_NOM},null,null,null,null,ZONE_ID);
+        return dbR.rawQuery("SELECT COUNT(*) FROM " + table_MACHINE + " WHERE " + MACHINE_TIPUS + " = ?", args);
+    }
+
     /** ZONE CRUD */
 
     public Cursor Zones() {
 
         //return dbR.query(table_ZONE, new String[]{ZONE_ID,ZONE_NOM},null,null,null,null,ZONE_ID);
         return dbR.rawQuery("SELECT * FROM " + table_ZONE + " ORDER BY 1", null);
+    }
+
+    public Cursor Zona(int id) {
+
+        String[] args = new String[] {String.valueOf(id)};
+
+        //return dbR.query(table_MACHINE, new String[]{MACHINE_ID, MACHINE_NOMCLIENT, MACHINE_DIRECCIO, MACHINE_CP, MACHINE_CIUTAT, MACHINE_TELEFON, MACHINE_EMAIL, MACHINE_NUMEROSERIE, MACHINE_DATAREVISIO, MACHINE_TIPUS, MACHINE_ZONA},null,null, null,null, MACHINE_ID);
+        return dbR.rawQuery("SELECT * FROM " + table_ZONE + " WHERE " + ZONE_ID + " = ?", args);
     }
 
     public long AfegirZona(String nom) {
@@ -106,6 +130,14 @@ public class DatasourceDB {
         
         dbW.delete(table_ZONE,ZONE_ID + " = ?", new String[]{String.valueOf(id)});
         
+    }
+
+    public Cursor MaquinaAmbZona(long id) {
+
+        String[] args = new String[]{ String.valueOf(id) };
+
+        //return dbR.query(table_ZONE, new String[]{ZONE_ID,ZONE_NOM},null,null,null,null,ZONE_ID);
+        return dbR.rawQuery("SELECT COUNT(*) FROM " + table_MACHINE + " WHERE " + MACHINE_ZONA + " = ?", args);
     }
 
     /** MACHINE CRUD */

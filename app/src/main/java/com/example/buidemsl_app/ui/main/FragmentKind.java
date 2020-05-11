@@ -21,6 +21,7 @@ import com.example.buidemsl_app.MainActivity;
 import com.example.buidemsl_app.R;
 import com.example.buidemsl_app.adapters.*;
 
+import com.example.buidemsl_app.crearMaquina;
 import com.example.buidemsl_app.crearTipus;
 import com.example.buidemsl_app.crearZona;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -101,23 +102,46 @@ public class FragmentKind extends Fragment {
     private void addTipus() {
 
         Intent i = new Intent(getActivity(), crearTipus.class);
+
+        i.putExtra("id" , -1);
+
+        startActivityForResult(i, 1);
+
+    }
+
+    public void editTipus(int id) {
+
+        Intent i = new Intent(getActivity(), crearTipus.class);
+
+        i.putExtra("id" , id);
+
         startActivityForResult(i, 1);
 
     }
 
     public void eliminarTipus(final long _id) {
         // Pedimos confirmación
+
+        Cursor c = bd.MaquinaAmbTipus(_id);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        builder.setMessage("¿Desitja eliminar la zona?");
-        builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                bd.EliminarTipus(_id);
-                carregaTipus();
-            }
-        });
+        if (!c.moveToFirst()) {
 
-        builder.setNegativeButton("No", null);
+            builder.setMessage("¿Desitja eliminar la zona?");
+            builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    bd.EliminarTipus(_id);
+                    carregaTipus();
+                }
+            });
+
+            builder.setNegativeButton("No", null);
+
+        } else {
+
+            builder.setMessage("Elimini les màquines assignades per a poder eliminar el tipus de maquina.");
+            builder.setNeutralButton("Ok", null);
+        }
 
         builder.show();
     }

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +24,12 @@ public class crearZona extends AppCompatActivity {
         setContentView(R.layout.layout_crear_zona);
 
         bd = new DatasourceDB(this);
+
+        idZona = getIntent().getExtras().getInt("id");
+
+        if (idZona != -1) {
+            carregaDadesZona((int)idZona);
+        }
 
         Button btnOk = (Button) findViewById(R.id.btnOk);
         btnOk.setOnClickListener(new View.OnClickListener() {
@@ -43,6 +50,17 @@ public class crearZona extends AppCompatActivity {
         });
     }
 
+    private void carregaDadesZona(int id) {
+
+        Cursor zona = bd.Zona(id);
+        zona.moveToFirst();
+
+        EditText edt;
+
+        edt = findViewById(R.id.edtNomZona);
+        edt.setText(zona.getString(zona.getColumnIndexOrThrow(DatasourceDB.ZONE_NOM)));
+    }
+
     private void aceptar() {
         // Validem les dades
         EditText edt;
@@ -56,7 +74,11 @@ public class crearZona extends AppCompatActivity {
             return;
         }
 
-        idZona = bd.AfegirZona(nomZona);
+        if (idZona == -1) {
+            idZona = bd.AfegirZona(nomZona);
+        } else {
+            bd.ActualizarZona(idZona, nomZona);
+        }
 
         Intent i = new Intent();
         i.putExtra("id", idZona);

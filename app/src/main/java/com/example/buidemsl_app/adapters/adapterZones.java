@@ -27,26 +27,45 @@ public class adapterZones extends android.widget.SimpleCursorAdapter {
         final View view = super.getView(position, convertView, parent);
 
         // Agafem l'objecte de la view que es una LINEA DEL CURSOR
-        //Cursor maquines = (Cursor) getItem(position);
 
-        ImageView btnBorrar = view.findViewById(R.id.btnDelZona);
+        ImageView accioCela = view.findViewById(R.id.btnDelZona);
 
-        btnBorrar.setOnClickListener(new View.OnClickListener() {
+        accioCela.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                // Busquem la linia a eliminar
-                View row = (View) v.getParent().getParent();
-                // Busquem el listView per poder treure el numero de la fila
-                ListView lv = (ListView) row.getParent().getParent();
-                // Busco quina posicio ocupa la Row dins de la ListView
-                int position = lv.getPositionForView(row);
-                // Carrego la linia del cursor de la posició.
-                Cursor linia = (Cursor) getItem(position);
+            Cursor linia = getLinia(v);
 
-                fragmentZones.eliminarZona(linia.getLong(linia.getColumnIndexOrThrow(DatasourceDB.ZONE_ID)));
+            fragmentZones.eliminarZona(linia.getLong(linia.getColumnIndexOrThrow(DatasourceDB.ZONE_ID)));
+
+            }
+        });
+
+        accioCela = view.findViewById(R.id.btnEditZona);
+
+        accioCela.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            Cursor linia = getLinia(v);
+
+            fragmentZones.editZona(linia.getInt(linia.getColumnIndexOrThrow(DatasourceDB.ZONE_ID)));
+
             }
         });
 
         return view;
+    }
+
+    private Cursor getLinia(View v) {
+
+        // Busquem la linia a eliminar
+        View row = (View) v.getParent().getParent();
+        // Busquem el listView per poder treure el numero de la fila
+        ListView lv = (ListView) row.getParent().getParent();
+        // Busco quina posicio ocupa la Row dins de la ListView
+        int position = lv.getPositionForView(row);
+
+        // Carrego la linia del cursor de la posició.
+        return (Cursor) getItem(position);
     }
 }

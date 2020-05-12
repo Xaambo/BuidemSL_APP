@@ -7,6 +7,9 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.contentcapture.DataRemovalRequest;
@@ -45,6 +48,8 @@ public class FragmentMaquines extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setHasOptionsMenu(true);
 
         /*
         //pageViewModel = ViewModelProviders.of(this).get(PageViewModel.class);
@@ -89,6 +94,59 @@ public class FragmentMaquines extends Fragment {
 
         ListView lv = getActivity().findViewById(R.id.listMaquines);
         lv.setAdapter(scMaquines);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.layout_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.orderByNom:
+                ordenarPerNom();
+                return true;
+            case R.id.orderByAdress:
+                ordenarPerDireccio();
+                return true;
+            case R.id.orderByDate:
+                ordenarPerData();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void ordenarPerNom() {
+
+        Cursor cursorMaquines = bd.MaquinesPerNom();
+        updateList(cursorMaquines, "Ordenant maquines per nom...");
+    }
+
+    private void ordenarPerDireccio() {
+
+        Cursor cursorMaquines = bd.MaquinesPerDireccio();
+        updateList(cursorMaquines, "Ordenant maquines per direcció...");
+    }
+
+    private void ordenarPerData() {
+
+        Cursor cursorMaquines = bd.MaquinesPerData();
+        updateList(cursorMaquines, "Ordenant maquines per data de revisió...");
+    }
+
+    private void updateList(Cursor c, String missatge) {
+
+        scMaquines.changeCursor(c);
+        scMaquines.notifyDataSetChanged();
+
+        ListView lv = getActivity().findViewById(R.id.listMaquines);
+        lv.setSelection(0);
+
+        Snackbar.make(getActivity().findViewById(android.R.id.content), missatge, Snackbar.LENGTH_LONG).show();
     }
 
     public void FABActionListener() {

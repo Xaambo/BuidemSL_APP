@@ -15,12 +15,14 @@ import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.example.buidemsl_app.ui.main.SectionsPagerAdapter;
 
 import java.util.List;
+import java.util.zip.Inflater;
 
 public class MainActivity extends AppCompatActivity {
 

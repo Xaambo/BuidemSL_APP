@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,6 +18,7 @@ import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 
 import com.example.buidemsl_app.BuidemSLHelper;
@@ -100,12 +102,32 @@ public class FragmentMaquines extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.layout_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
+
+        androidx.appcompat.widget.SearchView sv = (androidx.appcompat.widget.SearchView) menu.findItem(R.id.app_bar_search).getActionView();
+
+        sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                busquedaMaquines(newText);
+
+                return false;
+            }
+        });
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
+            case R.id.orderByID:
+                carregaMaquines();
+                return true;
             case R.id.orderByNom:
                 ordenarPerNom();
                 return true;
@@ -166,7 +188,6 @@ public class FragmentMaquines extends Fragment {
         i.putExtra("id" , -1);
 
         startActivityForResult(i, 1);
-
     }
 
     public void editMaquina(int id) {
@@ -176,7 +197,6 @@ public class FragmentMaquines extends Fragment {
         i.putExtra("id" , id);
 
         startActivityForResult(i, 1);
-
     }
 
     public void eliminarMaquina(final long _id) {
@@ -196,6 +216,26 @@ public class FragmentMaquines extends Fragment {
         builder.show();
     }
 
+    public void trucar(int tel) {
+
+        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + tel));
+        startActivity(intent);
+    }
+
+    public void mail(String mail, String sn) {
+
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.setType("message/rfc822");
+        i.putExtra(Intent.EXTRA_EMAIL, mail);
+        i.putExtra(Intent.EXTRA_SUBJECT, "Propera revisió màquina nº " + sn);
+
+        try {
+            startActivity(Intent.createChooser(i, "Enviar correu..."));
+        } catch (android.content.ActivityNotFoundException ex) {
+            Snackbar.make(getActivity().findViewById(android.R.id.content), "No hi ha cap aplicació de mail instal·lada...", Snackbar.LENGTH_LONG).show();
+        }
+    }
+
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -210,6 +250,17 @@ public class FragmentMaquines extends Fragment {
         Cursor cursorMaquines;
 
         cursorMaquines = bd.Maquines();
+
+        // Un cop hem creat la maquina li diem al adapter que li hem canviat les dades i que s'actualitzi
+        scMaquines.changeCursor(cursorMaquines);
+        scMaquines.notifyDataSetChanged();
+    }
+
+    private void busquedaMaquines(String newText) {
+
+        Cursor cursorMaquines;
+
+        cursorMaquines = bd.MaquinesPerSN(newText);
 
         // Un cop hem creat la maquina li diem al adapter que li hem canviat les dades i que s'actualitzi
         scMaquines.changeCursor(cursorMaquines);

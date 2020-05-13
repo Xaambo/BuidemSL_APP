@@ -166,6 +166,14 @@ public class DatasourceDB {
         return dbR.rawQuery("SELECT * FROM " + table_MACHINE + " ORDER BY date(" + MACHINE_DATAREVISIO + ")", null);
     }
 
+    public Cursor MaquinesPerSN(String sn) {
+
+        String[] args = new String[] {sn};
+
+        //return dbR.query(table_MACHINE, new String[]{MACHINE_ID, MACHINE_NOMCLIENT, MACHINE_DIRECCIO, MACHINE_CP, MACHINE_CIUTAT, MACHINE_TELEFON, MACHINE_EMAIL, MACHINE_NUMEROSERIE, MACHINE_DATAREVISIO, MACHINE_TIPUS, MACHINE_ZONA},null,null, null,null, MACHINE_ID);
+        return dbR.rawQuery("SELECT * FROM " + table_MACHINE + " WHERE " + MACHINE_NUMEROSERIE + " LIKE '%' || ? || '%'", args);
+    }
+
     public Cursor existeixMaquina(String numeroSerie) {
 
         String[] args = new String[] {numeroSerie};

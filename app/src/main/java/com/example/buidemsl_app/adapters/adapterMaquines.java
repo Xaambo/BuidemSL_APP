@@ -53,15 +53,41 @@ public class adapterMaquines extends android.widget.SimpleCursorAdapter {
             }
         });
 
+        accioCela = view.findViewById(R.id.btnMail);
+
+        accioCela.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            Cursor linia = getLinia(v);
+
+            fragmentMaquines.mail(linia.getString(linia.getColumnIndexOrThrow(DatasourceDB.MACHINE_EMAIL)), linia.getString(linia.getColumnIndexOrThrow(DatasourceDB.MACHINE_NUMEROSERIE)));
+
+            }
+        });
+
+        accioCela = view.findViewById(R.id.btnTel);
+
+        accioCela.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            Cursor linia = getLinia(v);
+
+            fragmentMaquines.trucar(linia.getInt(linia.getColumnIndexOrThrow(DatasourceDB.MACHINE_TELEFON)));
+
+            }
+        });
+
         return view;
     }
 
     private Cursor getLinia(View v) {
 
         // Busquem la linia a eliminar
-        View row = (View) v.getParent().getParent();
+        View row = (View) v.getParent();
         // Busquem el listView per poder treure el numero de la fila
-        ListView lv = (ListView) row.getParent().getParent();
+        ListView lv = (ListView) row.getParent();
         // Busco quina posicio ocupa la Row dins de la ListView
         int position = lv.getPositionForView(row);
 

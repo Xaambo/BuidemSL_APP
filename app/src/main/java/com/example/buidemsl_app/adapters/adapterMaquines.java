@@ -33,7 +33,7 @@ public class adapterMaquines extends android.widget.SimpleCursorAdapter {
         accioCela.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-            Cursor linia = getLinia(v);
+            Cursor linia = getLiniaCRUD(v);
 
             fragmentMaquines.eliminarMaquina(linia.getLong(linia.getColumnIndexOrThrow(DatasourceDB.MACHINE_ID)));
 
@@ -46,7 +46,7 @@ public class adapterMaquines extends android.widget.SimpleCursorAdapter {
             @Override
             public void onClick(View v) {
 
-            Cursor linia = getLinia(v);
+            Cursor linia = getLiniaCRUD(v);
 
             fragmentMaquines.editMaquina(linia.getInt(linia.getColumnIndexOrThrow(DatasourceDB.MACHINE_ID)));
 
@@ -80,6 +80,19 @@ public class adapterMaquines extends android.widget.SimpleCursorAdapter {
         });
 
         return view;
+    }
+
+    private Cursor getLiniaCRUD(View v) {
+
+        // Busquem la linia a eliminar
+        View row = (View) v.getParent().getParent();
+        // Busquem el listView per poder treure el numero de la fila
+        ListView lv = (ListView) row.getParent().getParent();
+        // Busco quina posicio ocupa la Row dins de la ListView
+        int position = lv.getPositionForView(row);
+
+        // Carrego la linia del cursor de la posició.
+        return (Cursor) getItem(position);
     }
 
     private Cursor getLinia(View v) {
